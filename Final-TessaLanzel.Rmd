@@ -17,6 +17,7 @@ library(ggplot2)
 ```{r}
 salaries = read.csv("https://raw.githubusercontent.com/tlanzel/DS202Final/main/ds_salaries.csv")
 ```
+github: https://github.com/tlanzel/DS202Final
 
 # Question: Do larger companies pay more than medium or smaller companies for data science related jobs? 
 
@@ -37,6 +38,9 @@ This data set includes 11 different columns:
 10. company_location  
 11. company_size  
 
+```{r}
+head(salaries)
+```
 
 ## Step 1: Clean the Data
 
@@ -57,7 +61,6 @@ salaries = subset(salaries, select = -c(salary_currency, salary))
 
 ## Step 2: Visual Summary  
 
-<br>
 ```{r}
 #job_title variable
 salaries %>% group_by(job_title) %>% count() %>% ggplot(aes(x = job_title)) + geom_bar(aes(weight = n))+labs(x = "Job Title", y = "Count", title = "Job Title")
@@ -70,6 +73,7 @@ salaries2 = salaries2[1:5,]
 salaries2 %>% ggplot(aes(x = job_title)) + geom_bar(aes(weight = n)) +labs(x = "Job Title", y = "Count", title = "Job Title")
 
 ```
+<br>
 This graph displays the top five jobs that have salaries reported in this dataset.It is interesting to see that there are more data engineers reported than data scientists. 
 <br>
 
@@ -79,23 +83,27 @@ options(scipen = 999)
 salaries %>% ggplot(aes(x = salary_in_usd)) +geom_histogram(bins = 10) +labs(x = "Salary in USD", y = "Count", title = "Salary in USD")
 
 ```
+<br>
 I used a Histogram to display Salary in USD to see what the common or average salary is. In this case, the graph shows that the average salary reported is in the range of ~75,000 - ~150,000.  
 <br>
 ```{r}
 #experience_level visualized 
 salaries %>% group_by(experience_level) %>% count() %>% ggplot(aes(x = experience_level)) + geom_bar(aes(weight = n)) +labs(x = "Experience Level", y = "Count", title = "Experience Level")
 ```
+<br>
 There are four different levels of experience: Senior Level (SE), Expert Level (EX), Mid Level (MI), and Entry Level (EN). From the graph above, the most common experience level in this data set is senior level (SE).  
 <br>
 ```{r}
 salaries %>% group_by(company_size) %>% count() %>% ggplot(aes(x = company_size)) + geom_bar(aes(weight = n)) +labs(x = "Company Size", y = "Count", title = "Company Size")
 ```
+<br>
 There are three types of company in this dataset: Small (S), Medium (M), Large (L). The most common type of company in this data set is a medium sized company.  
 <br>
 ```{r}
 #how the data is distributed by year
 salaries %>% group_by(work_year) %>% count() %>% ggplot(aes(x = work_year)) + geom_bar(aes(weight = n)) +labs(x = "Year", y = "Count", title = "Year")
 ```
+<br>
 When finding this data online it was labeled as "2023 salaries for data scientists". When looking at the data, however, I found other years included. I wanted to see the distribution of years included so I displayed the year a bar graph. I found that 2023 was the highest reported, but there are also a lot of salaries included from 2022.  
 <br>
 
@@ -105,6 +113,7 @@ salaries %>%
   geom_boxplot() +
   labs(x = "Company Size", y = "Salary", title = "Company Size and Salary")
 ```
+<br>
 After visually displaying the counts of single variables, I explored the relationship between multiple variables. The box plot above shows that the median salary is highest for medium sized companies. This was surprising because I figured it would be highest for large companies. However, large companies might have more entry level jobs compared to the other sized companies. 
 <br>
 
@@ -120,6 +129,7 @@ salaries4 = salaries %>% filter(salaries$job_title == "Data Engineer" |
                      salaries$job_title == "Machine Learning Engineer" |
                             salaries$job_title == "Analytics Engineer")
 ```
+<br>
 The data was very large, so I reduced the size of the dataset to only in clude the top 5 positions with the most salaries reported. 
 
 ```{r}
@@ -128,6 +138,7 @@ salaries4 %>%
   geom_point() +
   labs(x = "Company Size", y = "Salary", title = "Company Size and Salary") + coord_flip()
 ```
+<br>
 Next, I used a scatter plot to show the relationship between company size and salary. This didn't provide a lot of information to help answer my question. 
 <br>
 
@@ -135,6 +146,7 @@ Next, I used a scatter plot to show the relationship between company size and sa
 ggplot(data = salaries4) + geom_bar(mapping = aes(x= company_size, y= salary_in_usd),
   stat = "identity", position = "dodge") +theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1)) 
 ```
+<br>
 From all of the single and multiple variable graphs above, I combined the information to try and answer my initial question. I used a bar graph to display the company size in relation to salary.  
 <br>
 
@@ -142,7 +154,9 @@ From all of the single and multiple variable graphs above, I combined the inform
 ggplot(data = salaries4) + geom_bar(mapping = aes(x= company_size, y= salary_in_usd, fill=salary_in_usd),
   stat = "identity", position = "dodge") + facet_wrap(~job_title, nrow =1) +theme(axis.text.x = element_text(angle=45, vjust=1, hjust=1))
 ```
+<br>
 Lastly, I took the previous graph and decided to use the facet_wrap function to show the information for each of the top five job titles reported. I also filled the bars based on the salary to show frequency. 
+<br>  
 
 ## Step 3: Conclusions 
 Original question: Do larger companies pay more than medium or smaller companies for data science related jobs?  
