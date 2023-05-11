@@ -23,7 +23,7 @@ github: https://github.com/tlanzel/DS202Final
 
 ### Data Set  
 
-This data set includes information on salaries of data scientists and related fields from 2020 - 2023
+This data set includes information on salaries of data scientists and related fields from 2020 - 2023. The dataset is from Kaggle.com
 
 This data set includes 11 different columns:   
 1. work_year  
