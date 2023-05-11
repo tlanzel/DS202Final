@@ -1,0 +1,47 @@
+---
+title: "DS202 Final"
+author: "Tessa Lanzel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+salaries = read.csv("https://raw.githubusercontent.com/tlanzel/DS202Final/main/ds_salaries.csv")
+```
+
+```{r}
+View(salaries)
+```
+
+Question: Do larger companies pay more than medium or smaller companies for the same experience level? 
+
+Step 1: clean the data 
+
+```{r}
+#get rid of any null values
+salaries = salaries %>% drop_na()
+
+#remove employment type
+salaries = subset(salaries, select = -c(employment_type) )
+
+#get rid of 2020 and 2021 information
+salaries %>% filter(salaries$work_year == "2023")
+
+#keep only companies located in the united states 
+salaries %>% filter(salaries$company_location == "US")
+
+#remove the salary and salary_currency (Only want to keep the salary in terms of usd)
+salaries = subset(salaries, select = -c(salary_currency, salary))
+
+view(salaries)
+```
+
